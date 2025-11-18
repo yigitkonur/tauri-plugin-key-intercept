@@ -5,7 +5,6 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "opener:default",
     "macos-input-monitor:default",
     "macos-input-monitor:allow-check-permission",
     "macos-input-monitor:allow-open-input-monitoring-settings",
