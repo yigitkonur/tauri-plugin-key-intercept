@@ -16,7 +16,9 @@ impl HotkeyManager {
     pub fn new<R: Runtime>(app_handle: AppHandle<R>) -> Result<Self, Error> {
         #[cfg(target_os = "macos")]
         {
+            let _ = std::fs::write("/tmp/f5-manager-init.txt", "HotkeyManager::new() called");
             let event_tap = EventTap::new(app_handle)?;
+            let _ = std::fs::write("/tmp/f5-manager-init.txt", "EventTap::new() returned successfully");
             Ok(Self {
                 event_tap: Arc::new(Mutex::new(event_tap)),
             })
@@ -77,3 +79,4 @@ impl HotkeyManager {
         log::info!("🧹 Cleaning up HotkeyManager");
     }
 }
+

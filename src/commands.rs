@@ -149,15 +149,21 @@ pub async fn check_permission() -> Result<bool> {
                 ) -> *mut c_void;
             }
             
+            println!("🔍 Checking Input Monitoring permission...");
+            println!("   Creating test CGEventTap...");
+            
             let tap = CGEventTapCreate(0, 0, 0, 1 << 10, test_callback, std::ptr::null_mut());
             let has_permission = !tap.is_null();
             
-            // Cleanup if created
             if has_permission {
+                println!("   ✅ Test tap created successfully - permission GRANTED");
                 extern "C" {
                     fn CFRelease(cf: *mut c_void);
                 }
                 CFRelease(tap);
+            } else {
+                println!("   ❌ Test tap failed - permission NOT GRANTED or app needs restart");
+                println!("   If permission was just granted, RESTART the app!");
             }
             
             Ok(has_permission)

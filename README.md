@@ -79,6 +79,25 @@ pub fn run() {
 
 Without this permission, CGEventTap creation fails silently.
 
+### Important: Code Signing for Release Builds
+
+**Issue:** Apps launched with `open` command may fail even with permission granted, while running the binary directly works.
+
+**Solution:** Ad-hoc sign your app after building:
+
+```bash
+# After building
+codesign --deep --force --sign - \
+  src-tauri/target/release/bundle/macos/YourApp.app
+
+# Then install
+cp -r src-tauri/target/release/bundle/macos/YourApp.app /Applications/
+```
+
+**Why this happens:** macOS Launch Services applies stricter security checks than direct binary execution. Ad-hoc signing resolves this.
+
+**For production:** Use proper Developer ID signing for distribution.
+
 ## API Reference
 
 ### Hotkey Struct
