@@ -1,13 +1,28 @@
 # F5 Override Example
 
-This example demonstrates how to use `tauri-plugin-macos-input-monitor` to override the F5 dictation shortcut on macOS.
+This example demonstrates how to use `tauri-plugin-macos-input-monitor` to override the **F5 dictation shortcut** on macOS.
 
-## What It Does
+![Example App Screenshot](../../docs/images/example-app-demo.png)
 
-- Intercepts F5 key presses **before** macOS dictation sees them
-- Plays a system sound when F5 is pressed
-- Shows a counter in the UI
-- **Blocks the dictation popup from appearing**
+## Why F5?
+
+**The Problem:** On macOS, pressing F5 triggers the system dictation popup ("Enable Dictation?"). This is a common frustration for developers who want to use F5 for custom app shortcuts (refresh, debug, game controls, etc.).
+
+**Standard solutions don't work:**
+- `tauri-plugin-global-shortcut` can't override it (application-level API)
+- JavaScript `preventDefault()` only works when window is focused
+- System Preferences changes affect all apps globally
+
+**Our Solution:** This plugin uses **CGEventTap at hardware level** to intercept F5 BEFORE macOS dictation handler sees it, giving your app complete control.
+
+## What This Example Does
+
+- ✅ Intercepts F5 key presses at hardware level
+- ✅ Blocks the dictation popup from appearing
+- ✅ Shows real-time F5 detection with counter
+- ✅ Displays permission status (green = granted)
+- ✅ Event log with timestamps
+- ✅ Works even when your app isn't focused!
 
 ## Running the Example
 

@@ -19,6 +19,10 @@ pnpm tauri dev
 Press **F5** - dictation blocked! ✅  
 (Grant Input Monitoring permission when prompted, then restart)
 
+![Example App Demo](docs/images/example-app-demo.png)
+
+**What you're seeing:** The example app demonstrates overriding macOS F5 dictation shortcut - a perfect real-world use case. Normally, pressing F5 triggers the "Enable Dictation?" popup. With this plugin, F5 is intercepted at hardware level BEFORE macOS sees it, giving your app full control. The green indicator confirms Input Monitoring permission is granted, and the event log shows real-time F5 detection with timestamps.
+
 ---
 
 ## ⚠️ Critical: Dev Mode vs Release Mode
