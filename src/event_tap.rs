@@ -9,7 +9,7 @@ use crate::models::{Hotkey, HotkeyId, KeypressEvent};
 use std::collections::HashMap;
 use std::os::raw::c_void;
 use std::sync::{Arc, Mutex};
-use tauri::{AppHandle, Emitter, Runtime};
+use tauri::{Emitter, AppHandle, Runtime};
 
 // CGEvent opaque types for FFI
 type CGEventRef = *mut c_void;
@@ -58,7 +58,7 @@ pub struct EventTap {
 
 // SAFETY: EventTap is Send + Sync because:
 // - The actual CFMachPortRef tap lives in a dedicated thread
-// - State is protected by Arc<Mutex<>>
+// - State is protected by Arc<Mutex<>>  
 // - We never share raw pointers across threads
 unsafe impl Send for EventTap {}
 unsafe impl Sync for EventTap {}
@@ -207,14 +207,11 @@ extern "C" fn event_callback(
                     if hotkey.keycodes.contains(&keycode) {
                         // Check if modifiers match
                         let expected_modifiers = hotkey.get_modifier_flags();
-
+                        
                         if user_modifiers == expected_modifiers {
                             #[cfg(debug_assertions)]
                             {
-                                println!(
-                                    "🎯 Hotkey matched! keycode: {}, modifiers: 0x{:x}",
-                                    keycode, user_modifiers
-                                );
+                                println!("🎯 Hotkey matched! keycode: {}, modifiers: 0x{:x}", keycode, user_modifiers);
                                 println!("   Event: {}", hotkey.event_name);
                             }
 
@@ -230,7 +227,7 @@ extern "C" fn event_callback(
                                     user_modifiers,
                                 };
                                 let event_name_for_spawn = event_name.clone();
-
+                                
                                 tauri::async_runtime::spawn(async move {
                                     let _ = handle.emit(&event_name_for_spawn, event_data);
                                 });
@@ -240,7 +237,7 @@ extern "C" fn event_callback(
                             if hotkey.consume {
                                 #[cfg(debug_assertions)]
                                 println!("   🚫 Consumed\n");
-
+                                
                                 return std::ptr::null_mut();
                             }
                         }
@@ -262,3 +259,4 @@ impl Drop for EventTap {
         }
     }
 }
+

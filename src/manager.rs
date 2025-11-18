@@ -77,3 +77,4 @@ impl HotkeyManager {
         log::info!("🧹 Cleaning up HotkeyManager");
     }
 }
+
