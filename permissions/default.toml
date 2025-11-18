@@ -1,0 +1,8 @@
+[default]
+description = "Default permissions for macOS Input Monitor plugin"
+permissions = [
+  "allow-register",
+  "allow-unregister", 
+  "allow-is-registered",
+  "allow-get-keycode-table"
+]

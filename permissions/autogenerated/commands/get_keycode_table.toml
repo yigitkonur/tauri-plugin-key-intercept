@@ -1,0 +1,13 @@
+# Automatically generated - DO NOT EDIT!
+
+"$schema" = "../../schemas/schema.json"
+
+[[permission]]
+identifier = "allow-get-keycode-table"
+description = "Enables the get_keycode_table command without any pre-configured scope."
+commands.allow = ["get_keycode_table"]
+
+[[permission]]
+identifier = "deny-get-keycode-table"
+description = "Denies the get_keycode_table command without any pre-configured scope."
+commands.deny = ["get_keycode_table"]

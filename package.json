@@ -1,0 +1,32 @@
+{
+  "name": "@yigitkonur/plugin-macos-input-monitor",
+  "version": "0.1.0",
+  "description": "macOS CGEventTap plugin for Tauri - Override system shortcuts",
+  "type": "module",
+  "main": "dist-js/index.cjs",
+  "module": "dist-js/index.js",
+  "types": "dist-js/index.d.ts",
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "keywords": [
+    "tauri",
+    "macos",
+    "keyboard",
+    "hotkey",
+    "cgeventtap",
+    "input-monitoring"
+  ],
+  "author": "Yigit Konur",
+  "license": "MIT OR Apache-2.0",
+  "peerDependencies": {
+    "@tauri-apps/api": "^2.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^12.1.1",
+    "rollup": "^4.28.1",
+    "tslib": "^2.8.1",
+    "typescript": "^5.6.3"
+  }
+}
+
