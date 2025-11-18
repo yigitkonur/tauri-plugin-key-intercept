@@ -43,14 +43,14 @@ pub fn run() {
                 }
             }
             
-            // Listen for F5 events from the plugin
+            // Listen for F5 events from the plugin and forward to frontend
             let app_handle = app.handle().clone();
             app.listen("f5-pressed", move |_event| {
                 let count = F5_PRESS_COUNT.fetch_add(1, Ordering::Relaxed) + 1;
                 println!("🎯 F5 pressed! Count: {}", count);
                 
-                // Emit to frontend
-                let _ = app_handle.emit("f5-count", count);
+                // Emit count to frontend (frontend expects number)
+                let _ = app_handle.emit("f5-frontend", count);
             });
             
             Ok(())
