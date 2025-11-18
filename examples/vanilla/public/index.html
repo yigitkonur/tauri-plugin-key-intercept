@@ -383,11 +383,20 @@
             }
         }
 
-        // Start when DOM ready
+        // Wait for both DOM AND Tauri to be ready
+        function waitForTauri() {
+            if (window.__TAURI__) {
+                init();
+            } else {
+                // Tauri not ready yet, try again in 50ms
+                setTimeout(waitForTauri, 50);
+            }
+        }
+        
         if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', init);
+            document.addEventListener('DOMContentLoaded', waitForTauri);
         } else {
-            init();
+            waitForTauri();
         }
     </script>
 </body>
