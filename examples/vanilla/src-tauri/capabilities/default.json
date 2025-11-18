@@ -1,12 +1,14 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
-  "description": "enables the default permissions",
-  "windows": [
-    "main"
-  ],
+  "description": "Capability for the main window",
+  "windows": ["main"],
   "permissions": [
     "core:default",
-    "macos-input-monitor:default"
+    "opener:default",
+    "macos-input-monitor:default",
+    "macos-input-monitor:allow-check-permission",
+    "macos-input-monitor:allow-open-input-monitoring-settings",
+    "macos-input-monitor:allow-get-keycode-table"
   ]
 }
