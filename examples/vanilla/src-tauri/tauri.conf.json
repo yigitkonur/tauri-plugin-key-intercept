@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "identifier": "com.tauri.macos-input-monitor",
   "build": {
-    "frontendDist": "../public"
+    "beforeDevCommand": "pnpm dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist"
   },
   "app": {
     "windows": [
       {
-        "title": "app",
-        "width": 800,
-        "height": 600,
-        "resizable": true,
-        "fullscreen": false
+        "title": "F5 Global Listener",
+        "width": 1024,
+        "height": 576,
+        "resizable": false,
+        "center": true
       }
     ],
     "security": {
