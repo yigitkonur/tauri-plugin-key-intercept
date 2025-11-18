@@ -49,7 +49,7 @@ pub fn run() {
                 let count = F5_PRESS_COUNT.fetch_add(1, Ordering::Relaxed) + 1;
                 println!("🎯 F5 pressed! Count: {}", count);
                 
-                // Emit count to frontend (frontend expects number)
+                // Emit count to frontend - MUST match HTML listener event name!
                 let _ = app_handle.emit("f5-frontend", count);
             });
             
