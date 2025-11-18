@@ -5,6 +5,33 @@
 [![Crates.io](https://img.shields.io/crates/v/tauri-plugin-macos-input-monitor.svg)](https://crates.io/crates/tauri-plugin-macos-input-monitor)
 [![License](https://img.shields.io/badge/license-MIT%2FApache--2.0-blue.svg)](LICENSE)
 
+## 🚀 Quick Start (2 Minutes)
+
+**Want to see it work immediately?**
+
+```bash
+git clone https://github.com/yigitkonur/tauri-plugin-macos-input-monitor
+cd tauri-plugin-macos-input-monitor/examples/vanilla
+pnpm install
+pnpm tauri dev
+```
+
+Press **F5** - dictation blocked! ✅  
+(Grant Input Monitoring permission when prompted, then restart)
+
+---
+
+## ⚠️ Critical: Dev Mode vs Release Mode
+
+| Mode | Status | Launch Method |
+|------|--------|---------------|
+| **Dev** (`pnpm tauri dev`) | ✅ Works perfectly | Automatic |
+| **Release** (without Developer ID) | ⚠️ Needs special launch | Direct binary only |
+
+**Dev mode always works.** Release builds require special handling - see [Launch Services Limitation](#️-important-launch-services-limitation-release-builds) below.
+
+---
+
 ## Why This Plugin Exists
 
 ### The Problem

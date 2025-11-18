@@ -11,11 +11,33 @@ This example demonstrates how to use `tauri-plugin-macos-input-monitor` to overr
 
 ## Running the Example
 
+### Dev Mode (Recommended for Testing)
+
 ```bash
 cd examples/vanilla
 pnpm install
 pnpm tauri dev
 ```
+
+**This works perfectly!** Press F5 and watch the counter increment.
+
+### Release Mode (Special Launch Required)
+
+```bash
+# Build the release
+pnpm tauri build
+
+# ⚠️ Important: Can't use 'open' without Developer ID signing
+# Instead, run binary directly:
+./src-tauri/target/release/bundle/macos/app.app/Contents/MacOS/tauri-app
+
+# Or create a launcher:
+echo '#!/bin/bash\n'$(pwd)'/src-tauri/target/release/bundle/macos/app.app/Contents/MacOS/tauri-app' > launch.command
+chmod +x launch.command
+open launch.command
+```
+
+**Why:** macOS Launch Services requires Developer ID signing for CGEventTap apps. Direct binary execution bypasses this. See main README for details.
 
 ## Required Permission
 
