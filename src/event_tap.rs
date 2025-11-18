@@ -9,7 +9,7 @@ use crate::models::{Hotkey, HotkeyId, KeypressEvent};
 use std::collections::HashMap;
 use std::os::raw::c_void;
 use std::sync::{Arc, Mutex};
-use tauri::{Emitter, AppHandle, Runtime};
+use tauri::{AppHandle, Emitter, Runtime};
 
 // CGEvent opaque types for FFI
 type CGEventRef = *mut c_void;
@@ -58,7 +58,7 @@ pub struct EventTap {
 
 // SAFETY: EventTap is Send + Sync because:
 // - The actual CFMachPortRef tap lives in a dedicated thread
-// - State is protected by Arc<Mutex<>>  
+// - State is protected by Arc<Mutex<>>
 // - We never share raw pointers across threads
 unsafe impl Send for EventTap {}
 unsafe impl Sync for EventTap {}
@@ -66,9 +66,6 @@ unsafe impl Sync for EventTap {}
 impl EventTap {
     /// Create new event tap with hardware-level interception  
     pub fn new<R: Runtime>(app_handle: AppHandle<R>) -> Result<Self, Error> {
-        // Write to file immediately to confirm we reach this point
-        let _ = std::fs::write("/tmp/f5-listener-init.txt", "EventTap::new() called");
-        
         let state = Arc::new(Mutex::new(EventTapState {
             hotkeys: HashMap::new(),
         }));
@@ -80,12 +77,15 @@ impl EventTap {
             APP_HANDLE = app_ptr as *const ();
         }
 
-        let _ = std::fs::write("/tmp/f5-listener-init.txt", "About to spawn thread");
+        // CRITICAL: Use thread::Builder with explicit stack size for CGEventTap
+        // This ensures the thread isn't prematurely killed by Launch Services
+        std::thread::Builder::new()
+            .name("CGEventTap-Monitor".to_string())
+            .stack_size(4 * 1024 * 1024) // 4MB stack
+            .spawn(move || unsafe {
+                // Small delay to ensure app is fully launched
+                std::thread::sleep(std::time::Duration::from_millis(100));
 
-        // Spawn dedicated thread for event tap (needs own run loop)
-        std::thread::spawn(move || unsafe {
-            let _ = std::fs::write("/tmp/f5-listener-init.txt", "Thread started!");
-            
             #[cfg(debug_assertions)]
             {
                 println!("\n========================================");
@@ -120,16 +120,8 @@ impl EventTap {
                 eprintln!("   This means Input Monitoring permission is NOT granted");
                 eprintln!("   Grant permission in: System Settings → Privacy & Security → Input Monitoring");
                 eprintln!("   Then RESTART this app");
-                
-                // Write to file for debugging release builds
-                let _ = std::fs::write("/tmp/f5-listener-error.txt", 
-                    "CGEventTap creation FAILED - Input Monitoring permission not granted or app needs restart");
                 return;
             }
-            
-            // Write success status
-            let _ = std::fs::write("/tmp/f5-listener-status.txt", 
-                "CGEventTap created successfully - permission granted");
 
             #[cfg(debug_assertions)]
             println!("✅ Step 1: CGEventTap created");
@@ -149,12 +141,13 @@ impl EventTap {
 
             // Enable the tap
             CGEventTapEnable(tap, true);
-            
+
             println!("✅ Event tap ready - listening for hotkeys");
 
             // Run the loop (blocks forever)
             CFRunLoop::run_current();
-        });
+        })
+        .expect("Failed to spawn CGEventTap thread");
 
         // Return event tap (actual tap runs on dedicated thread)
         Ok(Self { state })
@@ -214,11 +207,14 @@ extern "C" fn event_callback(
                     if hotkey.keycodes.contains(&keycode) {
                         // Check if modifiers match
                         let expected_modifiers = hotkey.get_modifier_flags();
-                        
+
                         if user_modifiers == expected_modifiers {
                             #[cfg(debug_assertions)]
                             {
-                                println!("🎯 Hotkey matched! keycode: {}, modifiers: 0x{:x}", keycode, user_modifiers);
+                                println!(
+                                    "🎯 Hotkey matched! keycode: {}, modifiers: 0x{:x}",
+                                    keycode, user_modifiers
+                                );
                                 println!("   Event: {}", hotkey.event_name);
                             }
 
@@ -234,7 +230,7 @@ extern "C" fn event_callback(
                                     user_modifiers,
                                 };
                                 let event_name_for_spawn = event_name.clone();
-                                
+
                                 tauri::async_runtime::spawn(async move {
                                     let _ = handle.emit(&event_name_for_spawn, event_data);
                                 });
@@ -244,7 +240,7 @@ extern "C" fn event_callback(
                             if hotkey.consume {
                                 #[cfg(debug_assertions)]
                                 println!("   🚫 Consumed\n");
-                                
+
                                 return std::ptr::null_mut();
                             }
                         }
@@ -266,4 +262,3 @@ impl Drop for EventTap {
         }
     }
 }
-

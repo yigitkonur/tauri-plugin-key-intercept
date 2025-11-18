@@ -39,30 +39,30 @@ pub const KEY_F11: i64 = 103;
 pub const KEY_F12: i64 = 111;
 
 /// F1 keycode in media keys mode (Brightness down)
-pub const KEY_F1_MEDIA: i64 = 145;  // Brightness down
-pub const KEY_F2_MEDIA: i64 = 144;  // Brightness up
-pub const KEY_F3_MEDIA: i64 = 160;  // Mission Control/Exposé
-pub const KEY_F4_MEDIA: i64 = 131;  // Launchpad
-pub const KEY_F5_MEDIA: i64 = 176;  // Keyboard brightness down
-pub const KEY_F6_MEDIA: i64 = 177;  // Keyboard brightness up
-pub const KEY_F7_MEDIA: i64 = 180;  // Rewind
-pub const KEY_F8_MEDIA: i64 = 179;  // Play/Pause
-pub const KEY_F9_MEDIA: i64 = 178;  // Fast forward
+pub const KEY_F1_MEDIA: i64 = 145; // Brightness down
+pub const KEY_F2_MEDIA: i64 = 144; // Brightness up
+pub const KEY_F3_MEDIA: i64 = 160; // Mission Control/Exposé
+pub const KEY_F4_MEDIA: i64 = 131; // Launchpad
+pub const KEY_F5_MEDIA: i64 = 176; // Keyboard brightness down
+pub const KEY_F6_MEDIA: i64 = 177; // Keyboard brightness up
+pub const KEY_F7_MEDIA: i64 = 180; // Rewind
+pub const KEY_F8_MEDIA: i64 = 179; // Play/Pause
+pub const KEY_F9_MEDIA: i64 = 178; // Fast forward
 pub const KEY_F10_MEDIA: i64 = 173; // Mute
 pub const KEY_F11_MEDIA: i64 = 174; // Volume down
 pub const KEY_F12_MEDIA: i64 = 175; // Volume up
 
 // Modifier Flag Bit Masks (as hex values in event flags)
-pub const CMD_FLAG: u64 = 0x100000;    // Command/Super key
-pub const OPT_FLAG: u64 = 0x80000;     // Option/Alt key
-pub const CTRL_FLAG: u64 = 0x40000;    // Control key
-pub const SHIFT_FLAG: u64 = 0x20000;   // Shift key
+pub const CMD_FLAG: u64 = 0x100000; // Command/Super key
+pub const OPT_FLAG: u64 = 0x80000; // Option/Alt key
+pub const CTRL_FLAG: u64 = 0x40000; // Control key
+pub const SHIFT_FLAG: u64 = 0x20000; // Shift key
 
 // Internal macOS flags (should be IGNORED when matching hotkeys)
-pub const SECONDARY_FN_FLAG: u64 = 0x800000;  // Fn key indicator
-pub const CAPS_LOCK_FLAG: u64 = 0x10000;      // Caps Lock
-pub const NUM_PAD_FLAG: u64 = 0x200000;       // Numeric keypad
-pub const NON_COALESCED_FLAG: u64 = 0x100;    // Internal event flag
+pub const SECONDARY_FN_FLAG: u64 = 0x800000; // Fn key indicator
+pub const CAPS_LOCK_FLAG: u64 = 0x10000; // Caps Lock
+pub const NUM_PAD_FLAG: u64 = 0x200000; // Numeric keypad
+pub const NON_COALESCED_FLAG: u64 = 0x100; // Internal event flag
 
 // CGEventTap C API Constants
 pub const CG_HID_EVENT_TAP: u32 = 0;
@@ -96,4 +96,3 @@ pub fn get_function_key_codes(key_number: u8) -> Vec<i64> {
 pub fn extract_user_modifiers(raw_flags: u64) -> u64 {
     raw_flags & (CMD_FLAG | OPT_FLAG | CTRL_FLAG | SHIFT_FLAG)
 }
-

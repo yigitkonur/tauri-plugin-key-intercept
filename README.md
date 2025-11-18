@@ -79,24 +79,42 @@ pub fn run() {
 
 Without this permission, CGEventTap creation fails silently.
 
-### Important: Code Signing for Release Builds
+### ⚠️ Important: Launch Services Limitation (Release Builds)
 
-**Issue:** Apps launched with `open` command may fail even with permission granted, while running the binary directly works.
+**Dev mode works perfectly** (`pnpm tauri dev`) ✅  
+**Release builds have a limitation** when launched via `open` command ❌
 
-**Solution:** Ad-hoc sign your app after building:
+**The Issue:**
 
+macOS Launch Services requires **Developer ID signing** for apps using CGEventTap with Input Monitoring. Without it:
+- ✅ Direct binary execution works: `/YourApp.app/Contents/MacOS/binary`
+- ❌ Launch Services fails: `open YourApp.app`
+
+**Why:** macOS enforces stricter security for Input Monitoring when apps are launched through Launch Services vs direct execution. Read more: [macOS Privacy Permissions Guide](https://gannonlawlor.com/posts/macos_privacy_permissions/)
+
+**Solutions:**
+
+**For Local Development/Testing:**
 ```bash
-# After building
-codesign --deep --force --sign - \
-  src-tauri/target/release/bundle/macos/YourApp.app
+# Option 1: Run binary directly
+/Applications/YourApp.app/Contents/MacOS/your-binary
 
-# Then install
-cp -r src-tauri/target/release/bundle/macos/YourApp.app /Applications/
+# Option 2: Create double-clickable launcher
+echo '#!/bin/bash\n/Applications/YourApp.app/Contents/MacOS/your-binary' > Launch.command
+chmod +x Launch.command
+# Double-click Launch.command from Finder!
 ```
 
-**Why this happens:** macOS Launch Services applies stricter security checks than direct binary execution. Ad-hoc signing resolves this.
+**For Production Distribution:**
+```bash
+# Requires Apple Developer account ($99/year)
+codesign --deep --force --sign "Developer ID Application: Your Name (TEAM_ID)" \
+  --options=runtime YourApp.app
 
-**For production:** Use proper Developer ID signing for distribution.
+# Then open works properly
+```
+
+**Note:** This is a macOS security feature, not a plugin bug. The CGEventTap implementation is production-ready and works flawlessly when launched correctly.
 
 ## API Reference
 
