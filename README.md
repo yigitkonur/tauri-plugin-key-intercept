@@ -4,7 +4,7 @@ Tauri v2 plugin that intercepts global keyboard events at the hardware level on 
 app.plugin(tauri_plugin_macos_input_monitor::init())
 ```
 
-[![crates.io](https://img.shields.io/crates/v/tauri-plugin-macos-input-monitor.svg?style=flat-square)](https://crates.io/crates/tauri-plugin-macos-input-monitor)
+[![crates.io](https://img.shields.io/crates/v/tauri-plugin-key-intercept.svg?style=flat-square)](https://crates.io/crates/tauri-plugin-key-intercept)
 [![rust](https://img.shields.io/badge/rust-1.77.2+-93450a.svg?style=flat-square)](https://www.rust-lang.org/)
 [![license](https://img.shields.io/badge/license-MIT_|_Apache--2.0-grey.svg?style=flat-square)](https://opensource.org/licenses/MIT)
 
@@ -34,7 +34,7 @@ add to your `src-tauri/Cargo.toml`:
 
 ```toml
 [dependencies]
-tauri-plugin-macos-input-monitor = "0.1"
+tauri-plugin-key-intercept = "0.1"
 ```
 
 register the plugin:
