@@ -5,9 +5,9 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "macos-input-monitor:default",
-    "macos-input-monitor:allow-check-permission",
-    "macos-input-monitor:allow-open-input-monitoring-settings",
-    "macos-input-monitor:allow-get-keycode-table"
+    "key-intercept:default",
+    "key-intercept:allow-check-permission",
+    "key-intercept:allow-open-input-monitoring-settings",
+    "key-intercept:allow-get-keycode-table"
   ]
 }

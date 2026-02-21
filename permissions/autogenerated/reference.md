@@ -1,6 +1,6 @@
 ## Default Permission
 
-Default permissions for macOS Input Monitor plugin
+Default permissions for Key Intercept plugin
 
 #### This default permission set includes the following:
 
@@ -21,7 +21,7 @@ Default permissions for macOS Input Monitor plugin
 <tr>
 <td>
 
-`macos-input-monitor:allow-check-permission`
+`key-intercept:allow-check-permission`
 
 </td>
 <td>
@@ -34,7 +34,7 @@ Enables the check_permission command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:deny-check-permission`
+`key-intercept:deny-check-permission`
 
 </td>
 <td>
@@ -47,7 +47,7 @@ Denies the check_permission command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:allow-discover-keycode`
+`key-intercept:allow-discover-keycode`
 
 </td>
 <td>
@@ -60,7 +60,7 @@ Enables the discover_keycode command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:deny-discover-keycode`
+`key-intercept:deny-discover-keycode`
 
 </td>
 <td>
@@ -73,7 +73,7 @@ Denies the discover_keycode command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:allow-get-keycode-table`
+`key-intercept:allow-get-keycode-table`
 
 </td>
 <td>
@@ -86,7 +86,7 @@ Enables the get_keycode_table command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:deny-get-keycode-table`
+`key-intercept:deny-get-keycode-table`
 
 </td>
 <td>
@@ -99,7 +99,7 @@ Denies the get_keycode_table command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:allow-is-registered`
+`key-intercept:allow-is-registered`
 
 </td>
 <td>
@@ -112,7 +112,7 @@ Enables the is_registered command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:deny-is-registered`
+`key-intercept:deny-is-registered`
 
 </td>
 <td>
@@ -125,7 +125,7 @@ Denies the is_registered command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:allow-open-input-monitoring-settings`
+`key-intercept:allow-open-input-monitoring-settings`
 
 </td>
 <td>
@@ -138,7 +138,7 @@ Enables the open_input_monitoring_settings command without any pre-configured sc
 <tr>
 <td>
 
-`macos-input-monitor:deny-open-input-monitoring-settings`
+`key-intercept:deny-open-input-monitoring-settings`
 
 </td>
 <td>
@@ -151,7 +151,7 @@ Denies the open_input_monitoring_settings command without any pre-configured sco
 <tr>
 <td>
 
-`macos-input-monitor:allow-register`
+`key-intercept:allow-register`
 
 </td>
 <td>
@@ -164,7 +164,7 @@ Enables the register command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:deny-register`
+`key-intercept:deny-register`
 
 </td>
 <td>
@@ -177,7 +177,7 @@ Denies the register command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:allow-unregister`
+`key-intercept:allow-unregister`
 
 </td>
 <td>
@@ -190,7 +190,7 @@ Enables the unregister command without any pre-configured scope.
 <tr>
 <td>
 
-`macos-input-monitor:deny-unregister`
+`key-intercept:deny-unregister`
 
 </td>
 <td>

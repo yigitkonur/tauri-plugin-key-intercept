@@ -1,5 +1,5 @@
 [package]
-name = "tauri-plugin-macos-input-monitor"
+name = "tauri-plugin-key-intercept"
 version = "0.1.0"
 authors = ["Yigit Konur <yigit35@gmail.com>"]
 description = "macOS-only Tauri plugin using CGEventTap FFI to intercept and override system keyboard shortcuts"
@@ -8,11 +8,11 @@ categories = ["gui", "os::macos-apis"]
 edition = "2021"
 rust-version = "1.77.2"
 exclude = ["/examples", "/dist-js", "/guest-js", "/node_modules", "/target"]
-links = "tauri-plugin-macos-input-monitor"
+links = "tauri-plugin-key-intercept"
 license = "MIT OR Apache-2.0"
-repository = "https://github.com/yigitkonur/tauri-plugin-macos-input-monitor"
-homepage = "https://github.com/yigitkonur/tauri-plugin-macos-input-monitor"
-documentation = "https://docs.rs/tauri-plugin-macos-input-monitor"
+repository = "https://github.com/yigitkonur/tauri-plugin-key-intercept"
+homepage = "https://github.com/yigitkonur/tauri-plugin-key-intercept"
+documentation = "https://docs.rs/tauri-plugin-key-intercept"
 readme = "README.md"
 
 [dependencies]

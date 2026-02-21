@@ -1,5 +1,5 @@
 [default]
-description = "Default permissions for macOS Input Monitor plugin"
+description = "Default permissions for Key Intercept plugin"
 permissions = [
   "allow-register",
   "allow-unregister", 

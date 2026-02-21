@@ -7,7 +7,7 @@
 //!
 //! # Example
 //! ```rust
-//! use tauri_plugin_macos_input_monitor::*;
+//! use tauri_plugin_key_intercept::*;
 //!
 //! // Use both keycodes to support all Mac configurations
 //! let f5_codes = vec![KEY_F5, KEY_F5_MEDIA];

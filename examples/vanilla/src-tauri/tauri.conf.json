@@ -1,7 +1,7 @@
 {
   "productName": "app",
   "version": "0.1.0",
-  "identifier": "com.tauri.macos-input-monitor",
+  "identifier": "com.tauri.key-intercept",
   "build": {
     "beforeDevCommand": "pnpm dev",
     "devUrl": "http://localhost:1420",

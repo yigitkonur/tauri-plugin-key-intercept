@@ -1,6 +1,6 @@
 # F5 Override Example
 
-This example demonstrates how to use `tauri-plugin-macos-input-monitor` to override the **F5 dictation shortcut** on macOS.
+This example demonstrates how to use `tauri-plugin-key-intercept` to override the **F5 dictation shortcut** on macOS.
 
 ![Example App Screenshot](../../docs/images/example-app-demo.png)
 
@@ -74,7 +74,7 @@ let hotkey = Hotkey {
     event_name: "f5-pressed".to_string(),
 };
 
-app.macos_input_monitor().manager.lock().unwrap().register(hotkey)?;
+app.key_intercept().manager.lock().unwrap().register(hotkey)?;
 ```
 
 ### 2. Listen for Events

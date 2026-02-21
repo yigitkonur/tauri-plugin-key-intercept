@@ -1,7 +1,7 @@
 Tauri v2 plugin that intercepts global keyboard events at the hardware level on macOS. uses `CGEventTap` FFI to steal keypresses before the OS sees them — so you can override system shortcuts like F5 (dictation) without asking nicely.
 
 ```rust
-app.plugin(tauri_plugin_macos_input_monitor::init())
+app.plugin(tauri_plugin_key_intercept::init())
 ```
 
 [![crates.io](https://img.shields.io/crates/v/tauri-plugin-key-intercept.svg?style=flat-square)](https://crates.io/crates/tauri-plugin-key-intercept)
@@ -41,7 +41,7 @@ register the plugin:
 
 ```rust
 tauri::Builder::default()
-    .plugin(tauri_plugin_macos_input_monitor::init())
+    .plugin(tauri_plugin_key_intercept::init())
     .run(tauri::generate_context!())
     .expect("failed to run app");
 ```
@@ -49,7 +49,7 @@ tauri::Builder::default()
 ### frontend side
 
 ```bash
-npm install @yigitkonur/plugin-macos-input-monitor
+npm install @yigitkonur/plugin-key-intercept
 ```
 
 ### capabilities
@@ -59,9 +59,9 @@ add to `src-tauri/capabilities/default.json`:
 ```json
 {
   "permissions": [
-    "macos-input-monitor:default",
-    "macos-input-monitor:allow-check-permission",
-    "macos-input-monitor:allow-open-input-monitoring-settings"
+    "key-intercept:default",
+    "key-intercept:allow-check-permission",
+    "key-intercept:allow-open-input-monitoring-settings"
   ]
 }
 ```
@@ -73,7 +73,7 @@ the default permission set grants `register`, `unregister`, `is-registered`, and
 ### from TypeScript
 
 ```typescript
-import { Hotkey, F5, checkPermission, openInputMonitoringSettings } from '@yigitkonur/plugin-macos-input-monitor';
+import { Hotkey, F5, checkPermission, openInputMonitoringSettings } from '@yigitkonur/plugin-key-intercept';
 
 // check Input Monitoring permission
 const hasAccess = await checkPermission();
@@ -99,7 +99,7 @@ unlisten();
 ### from Rust (host app setup)
 
 ```rust
-use tauri_plugin_macos_input_monitor::{MacOSInputMonitorExt, Modifiers, Hotkey};
+use tauri_plugin_key_intercept::{KeyInterceptExt, Modifiers, Hotkey};
 
 let hotkey = Hotkey {
     keycodes: vec![96, 176],  // F5 standard + media
@@ -108,7 +108,7 @@ let hotkey = Hotkey {
     event_name: "f5-pressed".to_string(),
 };
 
-app.macos_input_monitor()
+app.key_intercept()
     .manager.lock().unwrap()
     .register(hotkey)?;
 ```
@@ -116,7 +116,7 @@ app.macos_input_monitor()
 ### keycode table
 
 ```typescript
-import { getKeycodeTable } from '@yigitkonur/plugin-macos-input-monitor';
+import { getKeycodeTable } from '@yigitkonur/plugin-key-intercept';
 
 const table = await getKeycodeTable();
 // { "F1": [122, 145], "F2": [120, 144], ..., "F12": [111, 175] }

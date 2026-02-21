@@ -1,6 +1,6 @@
 /**
- * tauri-plugin-macos-input-monitor TypeScript API
- * 
+ * tauri-plugin-key-intercept TypeScript API
+ *
  * macOS-only plugin for intercepting keyboard events at hardware level
  * to override system shortcuts like F5 dictation, F3 mission control, etc.
  */
@@ -45,20 +45,20 @@ export interface KeypressEvent {
 export class Hotkey {
   private id?: string;
   private eventName: string;
-  
+
   constructor(
     private config: HotkeyConfig,
     eventName: string
   ) {
     this.eventName = eventName;
   }
-  
+
   /**
    * Register this hotkey
    * @returns Promise<string> - Hotkey ID for later unregistration
    */
   async register(): Promise<string> {
-    this.id = await invoke<string>('plugin:macos-input-monitor|register', {
+    this.id = await invoke<string>('plugin:key-intercept|register', {
       keycodes: this.config.keycodes,
       modifiers: this.config.modifiers || {},
       consume: this.config.consume !== false, // default true
@@ -66,17 +66,17 @@ export class Hotkey {
     });
     return this.id;
   }
-  
+
   /**
    * Unregister this hotkey
    */
   async unregister(): Promise<void> {
     if (this.id) {
-      await invoke('plugin:macos-input-monitor|unregister', { id: this.id });
+      await invoke('plugin:key-intercept|unregister', { id: this.id });
       this.id = undefined;
     }
   }
-  
+
   /**
    * Listen for this hotkey being triggered
    * @param handler - Callback function
@@ -87,13 +87,13 @@ export class Hotkey {
       handler(event.payload);
     });
   }
-  
+
   /**
    * Check if this hotkey is currently registered
    */
   async isRegistered(): Promise<boolean> {
     if (!this.id) return false;
-    return await invoke<boolean>('plugin:macos-input-monitor|is_registered', {
+    return await invoke<boolean>('plugin:key-intercept|is_registered', {
       id: this.id
     });
   }
@@ -104,7 +104,7 @@ export class Hotkey {
  * Returns both standard and media mode keycodes
  */
 export async function getKeycodeTable(): Promise<Record<string, number[]>> {
-  return await invoke<Record<string, number[]>>('plugin:macos-input-monitor|get_keycode_table');
+  return await invoke<Record<string, number[]>>('plugin:key-intercept|get_keycode_table');
 }
 
 /**
@@ -112,7 +112,7 @@ export async function getKeycodeTable(): Promise<Record<string, number[]>> {
  * Helpful for guiding users to grant permission
  */
 export async function openInputMonitoringSettings(): Promise<void> {
-  await invoke('plugin:macos-input-monitor|open_input_monitoring_settings');
+  await invoke('plugin:key-intercept|open_input_monitoring_settings');
 }
 
 /**
@@ -120,7 +120,7 @@ export async function openInputMonitoringSettings(): Promise<void> {
  * @returns Promise<boolean> - true if permission granted
  */
 export async function checkPermission(): Promise<boolean> {
-  return await invoke<boolean>('plugin:macos-input-monitor|check_permission');
+  return await invoke<boolean>('plugin:key-intercept|check_permission');
 }
 
 /**
@@ -128,11 +128,10 @@ export async function checkPermission(): Promise<boolean> {
  * Useful for finding keycodes on different Mac models
  */
 export async function discoverKeycode(durationMs?: number): Promise<string> {
-  return await invoke<string>('plugin:macos-input-monitor|discover_keycode', {
+  return await invoke<string>('plugin:key-intercept|discover_keycode', {
     durationMs: durationMs || 30000
   });
 }
 
 // Re-export keycode constants
 export * from './keycodes';
-

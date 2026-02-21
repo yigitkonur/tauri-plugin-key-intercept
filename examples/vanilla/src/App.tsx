@@ -22,7 +22,7 @@ function App() {
 
   useEffect(() => {
     // Check permission on load
-    invoke('plugin:macos-input-monitor|check_permission')
+    invoke('plugin:key-intercept|check_permission')
       .then((granted) => {
         setHasPermission(granted as boolean);
         if (granted) {
@@ -58,14 +58,14 @@ function App() {
   }, []);
 
   const openSettings = () => {
-    invoke('plugin:macos-input-monitor|open_input_monitoring_settings')
+    invoke('plugin:key-intercept|open_input_monitoring_settings')
       .then(() => addLog('Opened System Settings', 'info'))
       .catch((e) => addLog(`Failed to open settings: ${e}`, 'error'));
   };
 
   const testPermission = () => {
     addLog('Testing permission...', 'info');
-    invoke('plugin:macos-input-monitor|check_permission')
+    invoke('plugin:key-intercept|check_permission')
       .then((granted) => {
         setHasPermission(granted as boolean);
         if (granted) {

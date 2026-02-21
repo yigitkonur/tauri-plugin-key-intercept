@@ -1,5 +1,5 @@
 {
-  "name": "@yigitkonur/plugin-macos-input-monitor",
+  "name": "@yigitkonur/plugin-key-intercept",
   "version": "0.1.0",
   "description": "macOS CGEventTap plugin for Tauri - Override system shortcuts",
   "type": "module",
@@ -15,7 +15,7 @@
     "keyboard",
     "hotkey",
     "cgeventtap",
-    "input-monitoring"
+    "key-intercept"
   ],
   "author": "Yigit Konur",
   "license": "MIT OR Apache-2.0",
@@ -29,4 +29,3 @@
     "typescript": "^5.6.3"
   }
 }
-

@@ -2,7 +2,7 @@
 
 use crate::error::{Error, Result};
 use crate::models::{Hotkey, HotkeyId, Modifiers};
-use crate::{MacOSInputMonitor, constants};
+use crate::{KeyIntercept, constants};
 use std::collections::HashMap;
 use tauri::{command, AppHandle, Runtime, Manager};
 
@@ -17,7 +17,7 @@ pub async fn register<R: Runtime>(
 ) -> Result<String> {
     log::info!("📝 Registering hotkey: keycodes={:?}, event={}", keycodes, event_name);
     
-    let monitor = app.state::<MacOSInputMonitor>();
+    let monitor = app.state::<KeyIntercept>();
     let manager = monitor.manager.lock().map_err(|_| Error::LockError)?;
     
     let hotkey = Hotkey {
@@ -39,7 +39,7 @@ pub async fn unregister<R: Runtime>(
 ) -> Result<()> {
     log::info!("🗑️  Unregistering hotkey: {}", id);
     
-    let monitor = app.state::<MacOSInputMonitor>();
+    let monitor = app.state::<KeyIntercept>();
     let manager = monitor.manager.lock().map_err(|_| Error::LockError)?;
     
     let hotkey_id = HotkeyId(id);
@@ -52,7 +52,7 @@ pub async fn is_registered<R: Runtime>(
     app: AppHandle<R>,
     id: String,
 ) -> Result<bool> {
-    let monitor = app.state::<MacOSInputMonitor>();
+    let monitor = app.state::<KeyIntercept>();
     let manager = monitor.manager.lock().map_err(|_| Error::LockError)?;
     
     let hotkey_id = HotkeyId(id);

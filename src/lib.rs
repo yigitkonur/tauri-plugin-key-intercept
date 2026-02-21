@@ -1,4 +1,4 @@
-//! # tauri-plugin-macos-input-monitor
+//! # tauri-plugin-key-intercept
 //!
 //! macOS-only Tauri plugin using CGEventTap FFI to intercept keyboard events
 //! at hardware level BEFORE system shortcuts see them.
@@ -32,7 +32,7 @@ mod manager;
 pub use error::{Error, Result};
 
 /// Plugin state wrapper
-pub struct MacOSInputMonitor {
+pub struct KeyIntercept {
     #[cfg(target_os = "macos")]
     pub manager: Arc<Mutex<manager::HotkeyManager>>,
 
@@ -41,19 +41,19 @@ pub struct MacOSInputMonitor {
 }
 
 /// Extension trait for ergonomic access to plugin APIs
-pub trait MacOSInputMonitorExt<R: Runtime> {
-    fn macos_input_monitor(&self) -> State<'_, MacOSInputMonitor>;
+pub trait KeyInterceptExt<R: Runtime> {
+    fn key_intercept(&self) -> State<'_, KeyIntercept>;
 }
 
-impl<R: Runtime, T: Manager<R>> MacOSInputMonitorExt<R> for T {
-    fn macos_input_monitor(&self) -> State<'_, MacOSInputMonitor> {
-        self.state::<MacOSInputMonitor>()
+impl<R: Runtime, T: Manager<R>> KeyInterceptExt<R> for T {
+    fn key_intercept(&self) -> State<'_, KeyIntercept> {
+        self.state::<KeyIntercept>()
     }
 }
 
 /// Initialize the plugin
 pub fn init<R: Runtime>() -> TauriPlugin<R, ()> {
-    Builder::<R, ()>::new("macos-input-monitor")
+    Builder::<R, ()>::new("key-intercept")
         .invoke_handler(tauri::generate_handler![
             commands::register,
             commands::unregister,
@@ -66,24 +66,24 @@ pub fn init<R: Runtime>() -> TauriPlugin<R, ()> {
         .setup(|app, _api| {
             #[cfg(target_os = "macos")]
             {
-                println!("🚀 Initializing macOS Input Monitor Plugin");
+                println!("Initializing Key Intercept Plugin");
                 let manager = manager::HotkeyManager::new(app.clone())?;
-                app.manage(MacOSInputMonitor {
+                app.manage(KeyIntercept {
                     manager: Arc::new(Mutex::new(manager)),
                 });
-                println!("✅ Plugin initialized successfully");
+                println!("Plugin initialized successfully");
             }
 
             #[cfg(not(target_os = "macos"))]
             {
-                log::warn!("⚠️  macOS Input Monitor plugin only works on macOS");
-                app.manage(MacOSInputMonitor {});
+                log::warn!("Key Intercept plugin only works on macOS");
+                app.manage(KeyIntercept {});
             }
 
             Ok(())
         })
         .on_drop(|_app| {
-            log::info!("🧹 Cleaning up macOS Input Monitor Plugin");
+            log::info!("Cleaning up Key Intercept Plugin");
         })
         .build()
 }
